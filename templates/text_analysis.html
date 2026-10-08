@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% set sidebar = True %}
+{% block title %}Text emotion analysis{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1 class="h3 mb-1">Text emotion analyzer</h1>
+<p class="text-muted mb-0">Write how you feel. Your text is analyzed in memory and is not saved.</p></div></div>
+
+<div class="notice-inline"><i class="bi bi-info-circle me-2"></i>{{ disclaimer }}</div>
+{% if demo_mode %}<div class="alert alert-warning mt-3 mb-0"><strong>Demo mode:</strong> the AI model is not loaded, so results come from a simple word list and are labelled "demo prediction". See the README to enable the real model.</div>{% endif %}
+
+<div class="row g-3 mt-1">
+  <div class="col-xl-6">
+    <form id="text-form" class="card-x" novalidate>
+      <label for="text-input" class="form-label fw-semibold">How are you feeling?</label>
+      <textarea id="text-input" class="form-control" rows="7" maxlength="{{ max_length }}" placeholder="Example: I have been feeling very tired and worried about my exams."></textarea>
+      <div class="d-flex justify-content-between small text-muted mt-1"><span id="char-count">0 / {{ max_length }}</span></div>
+      <div id="form-error" class="alert alert-danger d-none mt-3" role="alert"></div>
+      <button id="analyze-btn" class="btn btn-primary-x mt-3" type="submit"><i class="bi bi-stars me-1"></i>Analyze Emotion</button>
+      <div class="mt-4">
+        <div class="small fw-semibold mb-2">Example sentences (for trying the tool only)</div>
+        <div class="d-flex flex-wrap gap-2" id="sample-chips">
+          {% for s in samples %}<button type="button" class="chip" data-sample="{{ s }}">{{ s }}</button>{% endfor %}
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-xl-6">
+    <div id="result-placeholder" class="card-x text-center text-muted"><i class="bi bi-bar-chart fs-1"></i><p class="mb-0 mt-2">Your result will appear here.</p></div>
+    <div id="result" class="d-none"></div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/analysis.js') }}"></script>{% endblock %}

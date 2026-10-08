@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% set sidebar = current_user is not none %}
+{% block title %}Privacy policy{% endblock %}
+{% block content %}
+<div class="{{ '' if sidebar else 'container-xxl py-4' }}">
+  <div class="page-head"><div><h1 class="h3 mb-1">Privacy policy</h1><p class="text-muted mb-0">What this app stores, why, and how you stay in control.</p></div></div>
+  <div class="row g-3">
+    <div class="col-lg-7">
+      <div class="card-x mb-3"><h2 class="h5">What is collected and why</h2>
+        <ul class="list-clean">{% for row in collected %}<li><b>{{ row.item }}.</b> {{ row.why }}</li>{% endfor %}</ul></div>
+      <div class="card-x mb-3"><h2 class="h5">What is NOT kept</h2>
+        <ul class="list-clean">{% for row in not_collected %}<li>{{ row }}</li>{% endfor %}</ul></div>
+      <div class="card-x mb-3"><h2 class="h5">Security</h2>
+        <p class="mb-0">Passwords are hashed with Werkzeug. The secret key lives in an environment variable. Uploads are validated, size-limited and renamed. Database access uses SQLAlchemy (protected against SQL injection).</p></div>
+      <div class="card-x notice"><h2 class="h5">Disclaimer</h2><p class="mb-0">{{ disclaimer }}</p></div>
+    </div>
+    <div class="col-lg-5">
+      {% if current_user %}
+      <div class="card-x mb-3"><h2 class="h5">Delete your analysis history</h2><p class="text-muted">Removes every saved result. Your account stays.</p><button id="privacy-clear" class="btn btn-outline-danger">Delete history</button></div>
+      <div class="card-x"><h2 class="h5">Delete your account</h2><p class="text-muted">Permanently removes your account and all results. Enter your password to confirm.</p>
+        <input type="password" id="delete-password" class="form-control mb-2" placeholder="Password" autocomplete="current-password" aria-label="Password">
+        <button id="delete-account" class="btn btn-danger">Delete account</button></div>
+      {% else %}
+      <div class="card-x"><h2 class="h5">Your controls</h2><p class="mb-2">After you log in, this page lets you delete your history or your whole account.</p><a class="btn btn-primary-x" href="{{ url_for('auth.login_page') }}">Log in</a></div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>{% endblock %}

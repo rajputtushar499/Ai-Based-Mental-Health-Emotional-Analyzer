@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% set sidebar = True %}
+{% block title %}Speech emotion analysis{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1 class="h3 mb-1">Speech emotion analyzer</h1>
+<p class="text-muted mb-0">Upload or record up to {{ max_seconds }} seconds of speech. Audio is deleted right after analysis.</p></div></div>
+<div class="notice-inline"><i class="bi bi-info-circle me-2"></i>{{ disclaimer }}</div>
+
+<div class="row g-3 mt-1">
+  <div class="col-xl-6">
+    <div class="card-x" id="speech-card" data-max-seconds="{{ max_seconds }}">
+      <h2 class="h6">1. Choose audio</h2>
+      <label for="audio-file" class="drop-zone" id="drop-zone">
+        <i class="bi bi-cloud-arrow-up fs-2"></i>
+        <span><b>Choose a file</b> or drop it here</span>
+        <small class="text-muted">{{ allowed|join(', ')|upper }} &middot; max 16 MB</small>
+      </label>
+      <input id="audio-file" class="d-none" type="file" accept=".wav,.mp3,.m4a,.flac,.ogg,audio/*">
+
+      <div class="text-center text-muted my-3 small">or</div>
+      <div class="d-flex align-items-center gap-3">
+        <button type="button" id="record-btn" class="btn btn-soft"><i class="bi bi-mic-fill me-1"></i><span>Record with microphone</span></button>
+        <span id="record-status" class="small text-muted" aria-live="polite"></span>
+      </div>
+      <p id="record-unsupported" class="small text-muted mt-2 d-none">Recording is not supported in this browser. Please upload a file instead.</p>
+
+      <audio id="audio-preview" class="w-100 mt-3 d-none" controls></audio>
+      <div id="file-name" class="small text-muted mt-1"></div>
+
+      <div class="form-check mt-3">
+        <input class="form-check-input" type="checkbox" id="use-transcript">
+        <label class="form-check-label small" for="use-transcript">Also transcribe the speech to add text-based signals (sends the audio to Google's speech service; needs internet). Off by default.</label>
+      </div>
+      <div id="form-error" class="alert alert-danger d-none mt-3" role="alert"></div>
+      <button id="speech-analyze-btn" class="btn btn-primary-x mt-3" type="button" disabled><i class="bi bi-stars me-1"></i>Analyze Speech</button>
+    </div>
+  </div>
+  <div class="col-xl-6">
+    <div id="result-placeholder" class="card-x text-center text-muted"><i class="bi bi-soundwave fs-1"></i><p class="mb-0 mt-2">Your result will appear here.</p></div>
+    <div id="result" class="d-none"></div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/analysis.js') }}"></script>{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% set sidebar = True %}
+{% block title %}Dashboard - Emotion Analyzer{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1 class="h3 mb-1">Welcome, <span id="welcome-name">{{ current_user.name }}</span></h1>
+  <p class="text-muted mb-0">Your emotional wellbeing overview, built from your saved results.</p></div>
+  <a class="btn btn-primary-x" href="{{ url_for('analysis.text_page') }}"><i class="bi bi-plus-lg me-1"></i>New analysis</a>
+</div>
+
+<div id="alert-box" class="support-alert d-none" role="status"></div>
+
+<div id="empty-state" class="card-x text-center d-none">
+  <h2 class="h5">No analyses yet</h2>
+  <p class="text-muted">Analyze a few sentences or a voice note and your charts will appear here.</p>
+  <a class="btn btn-primary-x" href="{{ url_for('analysis.text_page') }}">Analyze text</a>
+</div>
+
+<div class="row g-3 mb-3" id="stat-cards">
+  <div class="col-6 col-xl-3"><div class="card-x stat"><span class="stat-label">Latest emotion</span><div class="stat-value" id="stat-latest">-</div><small class="text-muted" id="stat-latest-conf"></small></div></div>
+  <div class="col-6 col-xl-3"><div class="card-x stat"><span class="stat-label">Total analyses</span><div class="stat-value" id="stat-total">-</div><small class="text-muted"><span id="stat-text">0</span> text &middot; <span id="stat-speech">0</span> speech</small></div></div>
+  <div class="col-6 col-xl-3"><div class="card-x stat"><span class="stat-label">Most frequent</span><div class="stat-value" id="stat-frequent">-</div></div></div>
+  <div class="col-6 col-xl-3"><div class="card-x stat"><span class="stat-label">Average emotional score</span><div class="stat-value" id="stat-score">-</div><div class="bar mt-2"><i id="stat-score-bar" style="width:0;background:var(--primary)"></i></div><small class="text-muted">0-100, higher = more positive</small></div></div>
+</div>
+
+<div class="row g-3 mb-3">
+  <div class="col-lg-5"><div class="card-x h-100"><h2 class="h6">Emotion distribution</h2><div class="chart-box"><canvas id="chart-distribution" aria-label="Emotion distribution chart" role="img"></canvas></div></div></div>
+  <div class="col-lg-7"><div class="card-x h-100"><h2 class="h6">Weekly emotion trend</h2><div class="chart-box"><canvas id="chart-weekly" aria-label="Weekly trend chart" role="img"></canvas></div></div></div>
+</div>
+<div class="row g-3">
+  <div class="col-lg-4"><div class="card-x h-100"><h2 class="h6">Text vs speech</h2><div class="chart-box"><canvas id="chart-types" aria-label="Analysis type chart" role="img"></canvas></div></div></div>
+  <div class="col-lg-8"><div class="card-x h-100"><div class="d-flex justify-content-between"><h2 class="h6">Recent analyses</h2><a class="small" href="{{ url_for('dashboard.history_page') }}">View all</a></div>
+    <div class="table-responsive"><table class="table table-x align-middle mb-0"><thead><tr><th>Date</th><th>Type</th><th>Emotion</th><th>Confidence</th></tr></thead><tbody id="recent-body"><tr><td colspan="4" class="text-muted">Loading...</td></tr></tbody></table></div>
+  </div></div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>{% endblock %}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}AI-Based Mental Health Emotion Analyzer{% endblock %}</title>
+  <meta name="description" content="Educational AI tool that analyzes text and speech for possible emotional states and gives general wellness insights.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body data-page="{{ request.endpoint or '' }}" class="{% if sidebar %}has-sidebar{% endif %}">
+  <a class="visually-hidden-focusable" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="container-xxl d-flex align-items-center gap-3">
+      {% if sidebar %}<button class="icon-btn d-lg-none" id="sidebar-toggle" aria-label="Open menu"><i class="bi bi-list"></i></button>{% endif %}
+      <a class="brand" href="{{ url_for('dashboard.index') }}"><span class="brand-mark"><i class="bi bi-heart-pulse"></i></span><span>Emotion Analyzer</span></a>
+      <nav class="topnav ms-auto d-none d-md-flex">
+        <a href="{{ url_for('dashboard.index') }}" class="{{ 'active' if request.endpoint == 'dashboard.index' }}">Home</a>
+        <a href="{{ url_for('dashboard.about') }}" class="{{ 'active' if request.endpoint == 'dashboard.about' }}">About</a>
+        <a href="{{ url_for('dashboard.privacy') }}" class="{{ 'active' if request.endpoint == 'dashboard.privacy' }}">Privacy</a>
+      </nav>
+      <div class="d-flex align-items-center gap-2 {% if not sidebar %}ms-auto ms-md-0{% endif %}">
+        {% if current_user %}
+          <span class="user-chip d-none d-sm-inline-flex"><i class="bi bi-person-circle"></i>{{ current_user.name }}</span>
+          <button class="btn btn-soft btn-sm" data-action="logout">Log out</button>
+        {% else %}
+          <a class="btn btn-soft btn-sm" href="{{ url_for('auth.login_page') }}">Log in</a>
+          <a class="btn btn-primary-x btn-sm" href="{{ url_for('auth.register_page') }}">Create account</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  {% if sidebar %}
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Main menu">
+      {% set ep = request.endpoint %}
+      <a href="{{ url_for('dashboard.dashboard_page') }}" class="{{ 'active' if ep == 'dashboard.dashboard_page' }}"><i class="bi bi-grid-1x2"></i>Dashboard</a>
+      <a href="{{ url_for('analysis.text_page') }}" class="{{ 'active' if ep == 'analysis.text_page' }}"><i class="bi bi-chat-text"></i>Analyze text</a>
+      <a href="{{ url_for('analysis.speech_page') }}" class="{{ 'active' if ep == 'analysis.speech_page' }}"><i class="bi bi-mic"></i>Analyze speech</a>
+      <a href="{{ url_for('dashboard.history_page') }}" class="{{ 'active' if ep == 'dashboard.history_page' }}"><i class="bi bi-clock-history"></i>History</a>
+      <a href="{{ url_for('dashboard.recommendations_page') }}" class="{{ 'active' if ep == 'dashboard.recommendations_page' }}"><i class="bi bi-lightbulb"></i>Recommendations</a>
+      <a href="{{ url_for('dashboard.privacy') }}" class="{{ 'active' if ep == 'dashboard.privacy' }}"><i class="bi bi-shield-lock"></i>Privacy &amp; data</a>
+      <div class="sidebar-note"><i class="bi bi-info-circle"></i> Educational tool. Not a diagnosis.</div>
+    </aside>
+    <main id="main" class="app-main">
+  {% else %}
+  <main id="main">
+  {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+  {% if sidebar %}</div>{% endif %}
+
+  <footer class="site-footer">
+    <div class="container-xxl">
+      <p class="mb-1"><i class="bi bi-info-circle me-1"></i>{{ disclaimer }}</p>
+      <p class="mb-0 small">AI-Based Mental Health Emotion Analyzer &middot; BTech CSE (AIML) project &middot; <a href="{{ url_for('dashboard.privacy') }}">Privacy</a></p>
+    </div>
+  </footer>
+
+  <div id="toast-area" aria-live="polite"></div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}About the project{% endblock %}
+{% block content %}
+<section class="container-xxl py-4 about">
+  <h1 class="h2">About the project</h1>
+  <div class="row g-3 mt-1">
+    <div class="col-lg-8">
+      <div class="card-x mb-3"><h2 class="h5">Project title</h2><p class="mb-0">AI-Based Mental Health Emotion Analyzer</p></div>
+      <div class="card-x mb-3"><h2 class="h5">Objective</h2><p class="mb-0">To provide an AI-assisted platform that analyzes emotional signals from text and speech and provides supportive wellness insights.</p></div>
+      <div class="card-x mb-3"><h2 class="h5">How it works</h2>
+        <ol class="mb-0">
+          <li><b>Text:</b> cleaned text goes to a pretrained DistilBERT emotion classifier. Its six base emotions are mapped to seven app emotions; stress and anxiety are derived with a documented word-cue rule.</li>
+          <li><b>Speech:</b> Librosa extracts MFCC, mel spectrogram, zero-crossing rate and chroma features, and a pretrained wav2vec2 model predicts the emotion from the audio.</li>
+          <li><b>Support:</b> a rule-based engine returns general wellness tips and a gentle alert if recent results are consistently strongly negative.</li>
+        </ol></div>
+      <div class="card-x notice"><h2 class="h5">Limitations</h2><p class="mb-0">Emotion models are imperfect, trained mostly on English text and acted speech. Results are a rough screening-style signal and never a diagnosis. {{ disclaimer }}</p></div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card-x"><h2 class="h5">Technologies</h2>
+        <div class="d-flex flex-wrap gap-2">
+          {% for t in ['Python','Flask','BERT','NLP','Speech Emotion Recognition','SQLite','HTML','CSS','JavaScript','Chart.js'] %}<span class="chip static">{{ t }}</span>{% endfor %}
+        </div></div>
+    </div>
+  </div>
+</section>
+{% endblock %}

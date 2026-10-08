@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% set sidebar = current_user is not none %}
+{% block title %}Wellness recommendations{% endblock %}
+{% block content %}
+<div class="{{ '' if sidebar else 'container-xxl py-4' }}">
+  <div class="page-head"><div><h1 class="h3 mb-1">Wellness recommendations</h1>
+  <p class="text-muted mb-0">Simple rule-based suggestions for each possible emotional state.</p></div></div>
+  <div class="notice-inline mb-3"><i class="bi bi-info-circle me-2"></i>These are general wellness ideas, not medical treatment. {{ disclaimer }}</div>
+  <div id="latest-note" class="support-alert d-none mb-3"></div>
+  <div class="row g-3" id="rec-grid"><div class="col-12 text-muted">Loading...</div></div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>{% endblock %}

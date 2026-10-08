@@ -1,0 +1,12 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+.env
+instance/
+*.db
+.pytest_cache/
+uploads/*
+!uploads/.gitkeep
+.idea/
+.vscode/

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="container-xxl pt-4 pt-md-5">
+  <div class="hero">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-7">
+        <h1 class="hero-title">AI-Based Mental Health Emotion Analyzer</h1>
+        <p class="hero-sub">Understand your emotions. Track your wellbeing. Get supportive insights.</p>
+        <p class="hero-copy">Write a few sentences or record your voice. A DistilBERT language model and a wav2vec2 speech model estimate the <em>possible</em> emotional state, then the app turns it into simple wellness suggestions and trends over time.</p>
+        <div class="d-flex flex-wrap gap-2 mt-4">
+          <a class="btn btn-light-x btn-lg" href="{{ url_for('analysis.text_page') }}"><i class="bi bi-chat-text me-2"></i>Analyze Text</a>
+          <a class="btn btn-outline-x btn-lg" href="{{ url_for('analysis.speech_page') }}"><i class="bi bi-mic me-2"></i>Analyze Speech</a>
+          <a class="btn btn-outline-x btn-lg" href="{{ url_for('dashboard.dashboard_page') }}"><i class="bi bi-grid-1x2 me-2"></i>View Dashboard</a>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="sample-card" aria-label="Illustration of a result (example only)">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="badge-emo emo-stress"><i class="bi bi-lightning-charge"></i> Stress</span>
+            <small class="text-muted">Example layout, not real data</small>
+          </div>
+          <div class="bar-row"><span>Stress</span><div class="bar"><i style="width:72%;background:var(--c-stress)"></i></div><b>72%</b></div>
+          <div class="bar-row"><span>Anxiety</span><div class="bar"><i style="width:18%;background:var(--c-anxiety)"></i></div><b>18%</b></div>
+          <div class="bar-row"><span>Neutral</span><div class="bar"><i style="width:7%;background:var(--c-neutral)"></i></div><b>7%</b></div>
+          <div class="bar-row"><span>Happiness</span><div class="bar"><i style="width:3%;background:var(--c-happiness)"></i></div><b>3%</b></div>
+          <p class="small mb-0 mt-3 text-muted">Possible emotional state &middot; wellness insight &middot; not a diagnosis</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container-xxl section">
+  <h2 class="section-title">What it does</h2>
+  <div class="row g-3">
+    {% for icon, title, text in [
+      ('bi-chat-text', 'Text analysis', 'Seven possible emotional states with a confidence score and probabilities.'),
+      ('bi-mic', 'Speech analysis', 'Upload or record audio. Librosa features feed a speech emotion model.'),
+      ('bi-graph-up', 'Trends', 'Charts of your emotion mix and weekly wellbeing, from your saved results.'),
+      ('bi-lightbulb', 'Wellness tips', 'General, non-medical suggestions matched to each emotional state.'),
+      ('bi-heart', 'Early support', 'A gentle message if several recent results are strongly negative.'),
+      ('bi-clock-history', 'History', 'Search, filter and delete any result whenever you like.') ] %}
+    <div class="col-md-6 col-lg-4"><div class="card-x h-100"><div class="feature-icon"><i class="bi {{ icon }}"></i></div><h3 class="h5">{{ title }}</h3><p class="mb-0 text-muted">{{ text }}</p></div></div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="container-xxl section">
+  <div class="row g-3">
+    <div class="col-lg-6"><div class="card-x h-100">
+      <h2 class="h4"><i class="bi bi-shield-lock me-2"></i>Your privacy</h2>
+      <p class="text-muted">Typed text is analyzed in memory and not saved. Audio is deleted right after analysis. Only the result (emotion, confidence, time) is stored, and you can delete it or your whole account at any time.</p>
+      <a href="{{ url_for('dashboard.privacy') }}">Read the privacy page</a>
+    </div></div>
+    <div class="col-lg-6"><div class="card-x h-100 notice">
+      <h2 class="h4"><i class="bi bi-exclamation-circle me-2"></i>Important disclaimer</h2>
+      <p class="mb-0">{{ disclaimer }}</p>
+    </div></div>
+  </div>
+</section>
+{% endblock %}

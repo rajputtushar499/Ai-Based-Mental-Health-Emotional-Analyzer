@@ -1,0 +1,20 @@
+# Web / database
+Flask==3.0.3
+Flask-Cors==4.0.1
+Flask-SQLAlchemy==3.1.1
+SQLAlchemy==2.0.31
+Werkzeug==3.0.3
+python-dotenv==1.0.1
+
+# NLP (text emotion model)
+torch>=2.2.0
+transformers>=4.40.0,<4.46
+nltk==3.8.1
+numpy>=1.26
+librosa>=0.10.2.post1
+soundfile>=0.12.1
+SpeechRecognition>=3.10.4
+standard-aifc; python_version >= "3.13"
+audioop-lts; python_version >= "3.13"
+# Tests
+pytest>=8.0
